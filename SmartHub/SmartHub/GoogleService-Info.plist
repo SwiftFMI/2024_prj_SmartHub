@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCTb7QiTV3ZMKahDUYeTK2E0hGggdqT-ug</string>
+	<key>GCM_SENDER_ID</key>
+	<string>938786737927</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>bg.uni-sofia.fmi.SmartHub</string>
+	<key>PROJECT_ID</key>
+	<string>smarthub-b98f6</string>
+	<key>STORAGE_BUCKET</key>
+	<string>smarthub-b98f6.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:938786737927:ios:6505190fb3b0fce38ebfa2</string>
+</dict>
+</plist>
