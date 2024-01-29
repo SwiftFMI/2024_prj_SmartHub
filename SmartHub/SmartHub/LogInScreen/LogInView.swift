@@ -17,7 +17,7 @@ struct LogInView: View {
     @State private var loginStatusMessage = ""
     
     @EnvironmentObject private var viewModel: MainViewModel
-    
+    //comment
     var body: some View {
         VStack(spacing: 16) {
             Image(systemName: "homekit")
