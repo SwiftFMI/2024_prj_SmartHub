@@ -23,6 +23,8 @@
 		BDB5D86F2B66C96F00C03477 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BDB5D86E2B66C96F00C03477 /* FirebaseAuth */; };
 		BDB5D8712B66C97500C03477 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BDB5D8702B66C97500C03477 /* FirebaseFirestore */; };
 		BDB5D8732B670A8900C03477 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB5D8722B670A8900C03477 /* LogInViewModel.swift */; };
+		BDCD06912B6B917F000E7090 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCD06902B6B917F000E7090 /* HomeScreenView.swift */; };
+		BDCD06932B6BF77A000E7090 /* HomeScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCD06922B6BF77A000E7090 /* HomeScreenViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,8 @@
 		BDB5D8672B66B18100C03477 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		BDB5D8692B66BD9F00C03477 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BDB5D8722B670A8900C03477 /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
+		BDCD06902B6B917F000E7090 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
+		BDCD06922B6BF77A000E7090 /* HomeScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +117,7 @@
 		2A4AEDC92B59913D00148B47 /* SmartHub */ = {
 			isa = PBXGroup;
 			children = (
+				BDCD068F2B6B912D000E7090 /* HomeScreen */,
 				BDB5D8692B66BD9F00C03477 /* GoogleService-Info.plist */,
 				BDB5D8662B66B14100C03477 /* LogInScreen */,
 				2A4AEDCA2B59913D00148B47 /* SmartHubApp.swift */,
@@ -174,6 +179,15 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BDCD068F2B6B912D000E7090 /* HomeScreen */ = {
+			isa = PBXGroup;
+			children = (
+				BDCD06902B6B917F000E7090 /* HomeScreenView.swift */,
+				BDCD06922B6BF77A000E7090 /* HomeScreenViewModel.swift */,
+			);
+			path = HomeScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,11 +331,13 @@
 				2A4AEDD42B59913E00148B47 /* Persistence.swift in Sources */,
 				BDB5D8682B66B18100C03477 /* LogInView.swift in Sources */,
 				2A4AEDCD2B59913D00148B47 /* ContentView.swift in Sources */,
+				BDCD06912B6B917F000E7090 /* HomeScreenView.swift in Sources */,
 				2A4AEDCB2B59913D00148B47 /* SmartHubApp.swift in Sources */,
 				BDB5D8732B670A8900C03477 /* LogInViewModel.swift in Sources */,
 				BDB5D8622B66B02E00C03477 /* MainView.swift in Sources */,
 				2A4AEDD72B59913E00148B47 /* SmartHub.xcdatamodeld in Sources */,
 				BDB5D8642B66B05000C03477 /* MainViewModel.swift in Sources */,
+				BDCD06932B6BF77A000E7090 /* HomeScreenViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
