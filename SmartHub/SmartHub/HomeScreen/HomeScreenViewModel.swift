@@ -42,4 +42,23 @@ class HomeScreenViewModel: ObservableObject{
             self?.hasBeenInitialized = true
         })
     }
+    
+    //test function
+    func addDeviceToRoom(room: Room, device: Device){
+        guard let index = rooms.firstIndex(where: { $0.id == room.id }) else {
+            return
+        }
+        
+        var updatedRoom = room
+        updatedRoom.devices.append(device)
+        rooms[index] = updatedRoom
+    }
+    
+    func addRoom(room: Room) {
+        self.rooms.append(room)
+    }
+    
+    func removeRoom(indexSet: IndexSet) {
+        self.rooms.remove(atOffsets: indexSet)
+    }
 }

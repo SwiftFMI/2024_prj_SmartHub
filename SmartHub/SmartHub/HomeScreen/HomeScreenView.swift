@@ -4,37 +4,67 @@
 //
 //  Created by Valentin Iliev on 1.02.24.
 //
-
 import SwiftUI
 import FirebaseAuth
+import CodeScanner
 
 struct HomeScreenView: View {
     @EnvironmentObject var viewModel: MainViewModel
     @ObservedObject var homeScreenViewModel = HomeScreenViewModel()
+    @State private var isShowingScanner = false
     
     var body: some View {
         NavigationView {
             ScrollView {
                 LazyVStack(alignment: .leading){
                     ForEach(homeScreenViewModel.rooms) { room in
-                        NavigationLink(destination: RoomDetailView(room: room)) {
+                        NavigationLink {
+                            RoomDetailView(room: room)
+                        } label:{
                             RoomTileView(room: room)
                         }
-                        .buttonStyle(PlainButtonStyle())
                     }
                 }
                 .padding()
             }
             .navigationBarTitle("Smart Home")
-            .navigationBarItems(trailing: Button(action: {
-                
-                logout()
-            }) {
-                Text("Log Out")
-            })
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading){
+                    Button {
+                        isShowingScanner = true
+                    } label: {
+                        Label("Scan", systemImage:"qrcode.viewfinder")
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing){
+                    Button(action:{logout()}){
+                        Text("Log Out")
+                    }
+                }
+            }
+            .sheet(isPresented:$isShowingScanner){
+                CodeScannerView(codeTypes: [.qr], completion: handleScan)
+            }
             .onAppear{
                 homeScreenViewModel.loadAllRooms()
             }
+        }
+    }
+    
+    func handleScan (result: Result<ScanResult, ScanError>) {
+        isShowingScanner = false
+        
+        switch result {
+        case .success(let result):
+            let details = result.string
+            print(details)
+            
+             //let device = Device(name: details)
+            //homeScreenViewModel.addDeviceToRoom(room: Room.allRooms.first!, device: device)
+            //continue implementation next time
+            //we can crete codes with the data separated by symbol
+        case .failure(_):
+            print("Scanning faild")
         }
     }
     
@@ -57,6 +87,7 @@ struct RoomTileView: View {
                 .font(.headline)
                 .foregroundColor(.primary)
             
+            
             ForEach(room.devices) { device in
                 DeviceTileView(device: device)
             }
@@ -64,6 +95,7 @@ struct RoomTileView: View {
         .padding()
         .background(Color.secondary.opacity(0.1))
         .cornerRadius(10)
+        
     }
 }
 
