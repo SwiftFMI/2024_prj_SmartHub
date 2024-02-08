@@ -12,6 +12,7 @@ struct HomeScreenView: View {
     @EnvironmentObject var viewModel: MainViewModel
     @ObservedObject var homeScreenViewModel = HomeScreenViewModel()
     @State private var isShowingScanner = false
+    @State private var isShowingConfirmation = false
     
     var body: some View {
         NavigationView {
@@ -29,21 +30,43 @@ struct HomeScreenView: View {
             }
             .navigationBarTitle("Smart Home")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading){
-                    Button {
-                        isShowingScanner = true
+                Menu {
+                    Section("Home"){
+                        Button {
+                            isShowingScanner = true
+                        } label: {
+                            Label("Add Device", systemImage:"qrcode.viewfinder")
+                        }
+                        
+                        Button {
+                            //homeScreenViewModel.addRoom(room: temp)
+                            //to do
+                        } label: {
+                            Label("Add Room", systemImage: "door.left.hand.closed")
+                        }
+                    }
+                    
+                    Divider()
+                    
+                    Button (role: .destructive){
+                        isShowingConfirmation = true
                     } label: {
-                        Label("Scan", systemImage:"qrcode.viewfinder")
+                        Label("Log Out", systemImage:"person.crop.circle")
                     }
-                }
-                ToolbarItem(placement: .topBarTrailing){
-                    Button(action:{logout()}){
-                        Text("Log Out")
-                    }
+                    
+                } label: {
+                    Label("more", systemImage: "ellipsis.circle")
                 }
             }
             .sheet(isPresented:$isShowingScanner){
                 CodeScannerView(codeTypes: [.qr], completion: handleScan)
+            }
+            .confirmationDialog( "Are you sure you want to log out?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
+                Button (role: .destructive) {
+                    logout()
+                } label: {
+                    Text ("Log Out")
+                }
             }
             .onAppear{
                 homeScreenViewModel.loadAllRooms()
@@ -59,7 +82,7 @@ struct HomeScreenView: View {
             let details = result.string
             print(details)
             
-             //let device = Device(name: details)
+            //let device = Device(name: details)
             //homeScreenViewModel.addDeviceToRoom(room: Room.allRooms.first!, device: device)
             //continue implementation next time
             //we can crete codes with the data separated by symbol
