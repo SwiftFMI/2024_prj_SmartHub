@@ -16,6 +16,7 @@
 		2A4AEDE12B59913E00148B47 /* SmartHubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4AEDE02B59913E00148B47 /* SmartHubTests.swift */; };
 		2A4AEDEB2B59913E00148B47 /* SmartHubUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4AEDEA2B59913E00148B47 /* SmartHubUITests.swift */; };
 		2A4AEDED2B59913E00148B47 /* SmartHubUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4AEDEC2B59913E00148B47 /* SmartHubUITestsLaunchTests.swift */; };
+		BD5B34002B73B717003147B4 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = BD5B33FF2B73B717003147B4 /* CodeScanner */; };
 		BDB5D8622B66B02E00C03477 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB5D8612B66B02E00C03477 /* MainView.swift */; };
 		BDB5D8642B66B05000C03477 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB5D8632B66B05000C03477 /* MainViewModel.swift */; };
 		BDB5D8682B66B18100C03477 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB5D8672B66B18100C03477 /* LogInView.swift */; };
@@ -23,6 +24,8 @@
 		BDB5D86F2B66C96F00C03477 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BDB5D86E2B66C96F00C03477 /* FirebaseAuth */; };
 		BDB5D8712B66C97500C03477 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BDB5D8702B66C97500C03477 /* FirebaseFirestore */; };
 		BDB5D8732B670A8900C03477 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB5D8722B670A8900C03477 /* LogInViewModel.swift */; };
+		BDCD06912B6B917F000E7090 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCD06902B6B917F000E7090 /* HomeScreenView.swift */; };
+		BDCD06932B6BF77A000E7090 /* HomeScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCD06922B6BF77A000E7090 /* HomeScreenViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +63,8 @@
 		BDB5D8672B66B18100C03477 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		BDB5D8692B66BD9F00C03477 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BDB5D8722B670A8900C03477 /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
+		BDCD06902B6B917F000E7090 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
+		BDCD06922B6BF77A000E7090 /* HomeScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +74,7 @@
 			files = (
 				BDB5D86F2B66C96F00C03477 /* FirebaseAuth in Frameworks */,
 				BDB5D8712B66C97500C03477 /* FirebaseFirestore in Frameworks */,
+				BD5B34002B73B717003147B4 /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +119,7 @@
 		2A4AEDC92B59913D00148B47 /* SmartHub */ = {
 			isa = PBXGroup;
 			children = (
+				BDCD068F2B6B912D000E7090 /* HomeScreen */,
 				BDB5D8692B66BD9F00C03477 /* GoogleService-Info.plist */,
 				BDB5D8662B66B14100C03477 /* LogInScreen */,
 				2A4AEDCA2B59913D00148B47 /* SmartHubApp.swift */,
@@ -176,6 +183,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		BDCD068F2B6B912D000E7090 /* HomeScreen */ = {
+			isa = PBXGroup;
+			children = (
+				BDCD06902B6B917F000E7090 /* HomeScreenView.swift */,
+				BDCD06922B6BF77A000E7090 /* HomeScreenViewModel.swift */,
+			);
+			path = HomeScreen;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -195,6 +211,7 @@
 			packageProductDependencies = (
 				BDB5D86E2B66C96F00C03477 /* FirebaseAuth */,
 				BDB5D8702B66C97500C03477 /* FirebaseFirestore */,
+				BD5B33FF2B73B717003147B4 /* CodeScanner */,
 			);
 			productName = SmartHub;
 			productReference = 2A4AEDC72B59913D00148B47 /* SmartHub.app */;
@@ -270,6 +287,7 @@
 			mainGroup = 2A4AEDBE2B59913D00148B47;
 			packageReferences = (
 				BDB5D86C2B66C03300C03477 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				BD5B33FE2B73B717003147B4 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			productRefGroup = 2A4AEDC82B59913D00148B47 /* Products */;
 			projectDirPath = "";
@@ -317,11 +335,13 @@
 				2A4AEDD42B59913E00148B47 /* Persistence.swift in Sources */,
 				BDB5D8682B66B18100C03477 /* LogInView.swift in Sources */,
 				2A4AEDCD2B59913D00148B47 /* ContentView.swift in Sources */,
+				BDCD06912B6B917F000E7090 /* HomeScreenView.swift in Sources */,
 				2A4AEDCB2B59913D00148B47 /* SmartHubApp.swift in Sources */,
 				BDB5D8732B670A8900C03477 /* LogInViewModel.swift in Sources */,
 				BDB5D8622B66B02E00C03477 /* MainView.swift in Sources */,
 				2A4AEDD72B59913E00148B47 /* SmartHub.xcdatamodeld in Sources */,
 				BDB5D8642B66B05000C03477 /* MainViewModel.swift in Sources */,
+				BDCD06932B6BF77A000E7090 /* HomeScreenViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,6 +505,7 @@
 				DEVELOPMENT_TEAM = U95N94AT4G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR codes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -513,6 +534,7 @@
 				DEVELOPMENT_TEAM = U95N94AT4G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR codes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -644,6 +666,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BD5B33FE2B73B717003147B4 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.3;
+			};
+		};
 		BDB5D86C2B66C03300C03477 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -655,6 +685,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BD5B33FF2B73B717003147B4 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD5B33FE2B73B717003147B4 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
 		BDB5D86E2B66C96F00C03477 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BDB5D86C2B66C03300C03477 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

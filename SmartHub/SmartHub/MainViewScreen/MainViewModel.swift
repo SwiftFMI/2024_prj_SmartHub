@@ -8,8 +8,9 @@
 import Foundation
 import FirebaseAuth
 
+
 class MainViewModel: ObservableObject {
     @Published var isLogged = false
     @Published var currentUser: User?
-    
 }
+

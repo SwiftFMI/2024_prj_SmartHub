@@ -12,13 +12,12 @@ struct MainView: View {
     
     var body: some View {
         if mainViewModel.isLogged {
-            ContentView()
+            HomeScreenView()
                 .environmentObject(mainViewModel)
         } else {
             LogInView()
                 .environmentObject(mainViewModel)
         }
-        
     }
 }
 
