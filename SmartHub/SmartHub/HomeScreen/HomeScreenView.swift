@@ -6,13 +6,19 @@
 //
 import SwiftUI
 import FirebaseAuth
-import CodeScanner
+
 
 struct HomeScreenView: View {
     @EnvironmentObject var viewModel: MainViewModel
     @ObservedObject var homeScreenViewModel = HomeScreenViewModel()
-    @State private var isShowingScanner = false
+    
     @State private var isShowingConfirmation = false
+    @State private var isShowingAddRoomAllert = false
+    @State private var isShowingManualInputAllert = false
+    @State private var newRoomName = ""
+    @State var newDeviceUUID = ""
+    @State var newDeviceName = ""
+    @State var newDeviceType: DeviceType = .unknown
     
     var body: some View {
         NavigationView {
@@ -21,6 +27,7 @@ struct HomeScreenView: View {
                     ForEach(homeScreenViewModel.rooms) { room in
                         NavigationLink {
                             RoomDetailView(room: room)
+                                .environmentObject(homeScreenViewModel)
                         } label:{
                             RoomTileView(room: room)
                         }
@@ -33,14 +40,7 @@ struct HomeScreenView: View {
                 Menu {
                     Section("Home"){
                         Button {
-                            isShowingScanner = true
-                        } label: {
-                            Label("Add Device", systemImage:"qrcode.viewfinder")
-                        }
-                        
-                        Button {
-                            //homeScreenViewModel.addRoom(room: temp)
-                            //to do
+                            isShowingAddRoomAllert.toggle()
                         } label: {
                             Label("Add Room", systemImage: "door.left.hand.closed")
                         }
@@ -58,9 +58,11 @@ struct HomeScreenView: View {
                     Label("more", systemImage: "ellipsis.circle")
                 }
             }
-            .sheet(isPresented:$isShowingScanner){
-                CodeScannerView(codeTypes: [.qr], completion: handleScan)
+            .alert("Room name", isPresented: $isShowingAddRoomAllert) {
+                TextField("Enter room name", text: $newRoomName)
+                Button("OK", action: submitNewRoom)
             }
+            
             .confirmationDialog( "Are you sure you want to log out?", isPresented: $isShowingConfirmation, titleVisibility: .visible) {
                 Button (role: .destructive) {
                     logout()
@@ -70,26 +72,27 @@ struct HomeScreenView: View {
             }
             .onAppear{
                 homeScreenViewModel.loadAllRooms()
+                //homeScreenViewModel.loadRoomsForCurrentUser(userID: viewModel.currentUser!.uid)
             }
         }
     }
     
-    func handleScan (result: Result<ScanResult, ScanError>) {
-        isShowingScanner = false
+    
+    func submitNewRoom() {
         
-        switch result {
-        case .success(let result):
-            let details = result.string
-            print(details)
-            
-            //let device = Device(name: details)
-            //homeScreenViewModel.addDeviceToRoom(room: Room.allRooms.first!, device: device)
-            //continue implementation next time
-            //we can crete codes with the data separated by symbol
-        case .failure(_):
-            print("Scanning faild")
+        guard !newRoomName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                print("Room name cannot be empty")
+                return
         }
+        
+        let newRoom = Room(name: newRoomName, devices: [])
+        homeScreenViewModel.addRoom(room: newRoom)
+        
+        // Add the new room to Firestore
+        homeScreenViewModel.addRoomToFirestore(room: newRoom, userID: viewModel.currentUser!.uid)
     }
+    
+    
     
     private func logout() {
         do {
@@ -101,82 +104,7 @@ struct HomeScreenView: View {
     }
 }
 
-struct RoomTileView: View {
-    var room: Room
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(room.name)
-                .font(.headline)
-                .foregroundColor(.primary)
-            
-            
-            ForEach(room.devices) { device in
-                DeviceTileView(device: device)
-            }
-        }
-        .padding()
-        .background(Color.secondary.opacity(0.1))
-        .cornerRadius(10)
-        
-    }
-}
 
-struct DeviceTileView: View {
-    var device: Device
-    
-    var body: some View {
-        HStack {
-            Image(systemName: "lightbulb")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 20, height: 20)
-                .foregroundColor(.blue)
-            
-            Text(device.name)
-                .font(.caption)
-                .foregroundColor(.secondary)
-        }
-    }
-}
-
-struct RoomDetailView: View {
-    var room: Room
-    var body: some View {
-        
-        VStack {
-            Text(room.name)
-                .font(.title)
-                .padding()
-            
-            ForEach(room.devices) { device in
-                DeviceDetailView(device: device)
-            }
-        }
-        .navigationBarTitle("Room Detail", displayMode: .inline)
-    }
-}
-
-struct DeviceDetailView: View {
-    var device: Device
-    
-    var body: some View {
-        VStack {
-            Image(systemName: "lightbulb")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 50, height: 50)
-                .foregroundColor(.blue)
-            
-            Text(device.name)
-                .font(.headline)
-                .padding(.top, 8)
-        }
-        .padding()
-        .background(Color.secondary.opacity(0.1))
-        .cornerRadius(10)
-    }
-}
 
 #Preview {
     HomeScreenView()
