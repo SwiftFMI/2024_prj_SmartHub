@@ -8,11 +8,12 @@
 import Foundation
 import Firebase
 import FirebaseFirestore
+import SwiftUI
 
 enum DeviceType: String, CaseIterable, Identifiable {
-    case unknown
-    case lightBulb
-    case smartPlug
+    case unknown = "Default"
+    case lightBulb = "Light Bulb"
+    case smartPlug = "Smart Plug"
     var id: Self { self }
 }
 
@@ -24,26 +25,39 @@ struct Device: Identifiable {
 }
 
 struct Room: Identifiable {
-    let id = UUID()
+    let id: String
     var name: String
     var devices: [Device]
     
     static var allRooms: [Room] {
         [
-            Room(name: "Living Room", devices: [Device(id: UUID().uuidString, name: "Smart Bulb", type: .lightBulb, isOn: true), Device(id: UUID().uuidString,name: "Smart Thermostat", type: .smartPlug)]),
-            Room(name: "Bedroom", devices: [Device(id: UUID().uuidString,name: "Smart Lamp"), Device(id: UUID().uuidString,name: "Smart Speaker")]),
-            Room(name: "Kitchen", devices: [Device(id: UUID().uuidString,name: "Smart Lamp"), Device(id: UUID().uuidString,name: "Smart Lapm")])
+            Room(id:"01", name: "Living Room", devices: [Device(id: UUID().uuidString, name: "Smart Bulb", type: .lightBulb, isOn: true), Device(id: UUID().uuidString,name: "Smart Thermostat", type: .smartPlug)]),
+            Room(id:"02",name: "Bedroom", devices: [Device(id: UUID().uuidString,name: "Smart Lamp"), Device(id: UUID().uuidString,name: "Smart Speaker")]),
+            Room(id:"03",name: "Kitchen", devices: [Device(id: UUID().uuidString,name: "Smart Lamp"), Device(id: UUID().uuidString,name: "Smart Lapm")])
         ]
     }
 }
+
 
 class HomeScreenViewModel: ObservableObject{
     @Published var rooms: [Room] = []
     private var hasBeenInitialized = false
     private var db = Firestore.firestore()
+    private var userId: String = ""
+    
+    init() {
+        if let currentUser = Auth.auth().currentUser {
+            let userID = currentUser.uid
+            self.userId = userID
+            loadRoomsForCurrentUser(userID: userID)
+        } else {
+            // Handle the case where the current user is not available
+            print("No current user")
+        }
+        
+    }
     
     func loadRoomsForCurrentUser(userID: String) {
-        // Assuming you have a Firestore collection named "users" and each user document has a "rooms" subcollection
         let userDocRef = db.collection("homes").document(userID)
         let roomsCollectionRef = userDocRef.collection("rooms")
         
@@ -65,11 +79,18 @@ class HomeScreenViewModel: ObservableObject{
                 let devices = devicesData.compactMap { deviceData in
                     let deviceId = deviceData["id"] as? String ?? ""
                     let deviceName = deviceData["name"] as? String ?? ""
-                    return Device( id: deviceId, name: deviceName)
+                    let deviceType = deviceData["type"] as? String ?? DeviceType.unknown.rawValue
+                    let deviceIsOn = deviceData["isOn"] as? Bool ?? false
+                    return Device( id: deviceId, name: deviceName,type: DeviceType(rawValue: deviceType)! ,isOn: deviceIsOn)
                 }
-                return Room(name: roomName, devices: devices)
+                
+                return Room(id:document.documentID, name: roomName, devices: devices)
             }
         }
+    }
+    
+    func addRoom(room: Room) {
+        self.rooms.append(room)
     }
     
     // Method to add a new room to Firestore
@@ -77,13 +98,13 @@ class HomeScreenViewModel: ObservableObject{
         let roomData: [String: Any] = [
             "name": room.name,
             "devices": room.devices.map { device in
-                ["id": device.id,"name": device.name]
+                ["id": device.id,"name": device.name,"type": device.type.rawValue, "isOn": device.isOn]
             }
         ]
         
-        let userDocRef = db.collection("homes").document(userID)
+        let newDocRef = db.collection("homes").document(userID).collection("rooms").document(room.id)
         
-        userDocRef.collection("rooms").addDocument(data: roomData) { error in
+        newDocRef.setData(roomData) { error in
             if let error = error {
                 print("Error adding room to Firestore: \(error.localizedDescription)")
             } else {
@@ -92,29 +113,23 @@ class HomeScreenViewModel: ObservableObject{
         }
     }
     
-    func loadAllRooms() {
-        if hasBeenInitialized {
-            return
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: { [weak self] in
-            self?.rooms.append(contentsOf: Room.allRooms)
-            self?.hasBeenInitialized = true
-        })
-    }
-    
     //test function
-    func addDeviceToRoom(room: Room, device: Device,userID: String){
+    func addDeviceToRoom(room: Room, device: Device, userID: String) {
         guard let index = rooms.firstIndex(where: { $0.id == room.id }) else {
             return
         }
         
         var updatedRoom = room
         
-        let userDocRef = db.collection("homes").document(userID)
-        let roomDocRef = userDocRef.collection("rooms").document(room.id.uuidString)
+        // Append the new device to the devices array of the room
+        updatedRoom.devices.append(device)
         
-        roomDocRef.updateData(["devices": updatedRoom.devices.map { ["id": $0.id, "name": $0.name] }]) { error in
+        // Update Firestore with the new devices array
+        let userDocRef = db.collection("homes").document(userID)
+        let roomDocRef = userDocRef.collection("rooms").document(room.id)
+        //print("Room id " + room.id.uuidString)
+        
+        roomDocRef.updateData(["devices": updatedRoom.devices.map { ["id": $0.id, "name": $0.name,"type": $0.type.rawValue,"isOn": $0.isOn] }]) { error in
             if let error = error {
                 print("Error updating room in Firestore: \(error.localizedDescription)")
             } else {
@@ -122,13 +137,53 @@ class HomeScreenViewModel: ObservableObject{
             }
         }
         
-        
-        updatedRoom.devices.append(device)
+        // Update the local rooms array
         rooms[index] = updatedRoom
     }
     
-    func addRoom(room: Room) {
-        self.rooms.append(room)
+    func updateDeviceInRoom(room: Room, updatedDevice: Device) {
+        // Find the index of the room in the rooms array
+        guard let index = rooms.firstIndex(where: { $0.id == room.id }) else {
+            return
+        }
+        
+        // Create a mutable copy of the room
+        var updatedRoom = room
+        
+        // Find the index of the device in the devices array of the room
+        guard let deviceIndex = updatedRoom.devices.firstIndex(where: { $0.id == updatedDevice.id }) else {
+            return
+        }
+        
+        // Update the device in the room's devices array
+        updatedRoom.devices[deviceIndex] = updatedDevice
+        
+        // Update the room in the rooms array
+        rooms[index] = updatedRoom
+    }
+    
+    
+    func finalUpdate(){
+        
+        for room in rooms {
+            let userDocRef = db.collection("homes").document(self.userId)
+            let roomDocRef = userDocRef.collection("rooms").document(room.id)
+            
+            let roomData: [String: Any] = [
+                "name": room.name,
+                "devices": room.devices.map { ["id": $0.id, "name": $0.name,"type": $0.type.rawValue,"isOn": $0.isOn] }
+            ]
+            
+            roomDocRef.setData(roomData) { error in
+                if let error = error {
+                    print("Error updating room in Firestore: \(error.localizedDescription)")
+                } else {
+                    print("Room updated in Firestore successfully")
+                }
+            }
+        }
+        
+        
     }
     
     func removeRoom(indexSet: IndexSet) {

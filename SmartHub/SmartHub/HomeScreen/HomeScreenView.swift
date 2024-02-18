@@ -16,9 +16,6 @@ struct HomeScreenView: View {
     @State private var isShowingAddRoomAllert = false
     @State private var isShowingManualInputAllert = false
     @State private var newRoomName = ""
-    @State var newDeviceUUID = ""
-    @State var newDeviceName = ""
-    @State var newDeviceType: DeviceType = .unknown
     
     var body: some View {
         NavigationView {
@@ -35,7 +32,7 @@ struct HomeScreenView: View {
                 }
                 .padding()
             }
-            .navigationBarTitle("Smart Home")
+            .navigationBarTitle("Smart Hub")
             .toolbar {
                 Menu {
                     Section("Home"){
@@ -71,7 +68,7 @@ struct HomeScreenView: View {
                 }
             }
             .onAppear{
-                homeScreenViewModel.loadAllRooms()
+                //homeScreenViewModel.loadAllRooms()
                 //homeScreenViewModel.loadRoomsForCurrentUser(userID: viewModel.currentUser!.uid)
             }
         }
@@ -85,7 +82,7 @@ struct HomeScreenView: View {
                 return
         }
         
-        let newRoom = Room(name: newRoomName, devices: [])
+        let newRoom = Room(id:UUID().uuidString, name: newRoomName, devices: [])
         homeScreenViewModel.addRoom(room: newRoom)
         
         // Add the new room to Firestore
@@ -96,6 +93,7 @@ struct HomeScreenView: View {
     
     private func logout() {
         do {
+            homeScreenViewModel.finalUpdate()
             try Auth.auth().signOut()
             viewModel.isLogged = false
         } catch {

@@ -29,6 +29,14 @@ struct RoomDetailView: View {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
                 ForEach(room.devices) { device in
                     DeviceDetailView(device: device)
+                        .onTapGesture {
+                            // Make sure 'device' is mutable by declaring it as a 'var'
+                            var mutableDevice = device
+                            mutableDevice.isOn.toggle()
+                            // Now you can use 'mutableDevice' to toggle 'isOn' property
+                            // Update the 'rooms' array with the updated 'device'
+                            homeScreenViewModel.updateDeviceInRoom(room: room, updatedDevice: mutableDevice)
+                        }
                 }
             }
             .padding()

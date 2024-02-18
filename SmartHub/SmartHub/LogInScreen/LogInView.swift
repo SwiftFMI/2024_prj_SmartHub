@@ -18,7 +18,7 @@ struct LogInView: View {
     @State private var loginStatusMessage = ""
     
     @EnvironmentObject private var viewModel: MainViewModel
-    //comment
+    
     var body: some View {
         VStack(spacing: 16) {
             Image(systemName: "homekit")
@@ -102,6 +102,7 @@ struct LogInView: View {
                 loginStatusMessage = "Error: \(error.localizedDescription)"
             } else {
                 loginStatusMessage = "Login successful"
+                //homeScreenViewModel.loadRoomsForCurrentUser(userID: viewModel.currentUser!.uid)
                 viewModel.isLogged = true
                 if let user = Auth.auth().currentUser {
                     viewModel.currentUser = user

@@ -22,11 +22,24 @@ struct RoomTileView: View {
                 ForEach(room.devices) { device in
                     
                     HStack{
-                        Image(systemName: "lightbulb")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(.blue)
+                        switch device.type {
+                        case .lightBulb : 
+                            Image(systemName: "lightbulb")
+                                .foregroundColor(.gray)
+                        case .smartPlug :
+                            Image(systemName: "powerplug")
+                                .foregroundColor(.gray)
+                        case .unknown:
+                            Image(systemName: "exclamationmark.circle.fill")
+                                .foregroundColor(.gray)
+                        }
+                        
+                        
+//                        Image(systemName: device.type == .lightBulb ? "lightbulb" : "powerplug")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: 20, height: 20)
+//                            .foregroundColor(.blue)
                         
                         Text(device.name)
                             .font(.caption)
