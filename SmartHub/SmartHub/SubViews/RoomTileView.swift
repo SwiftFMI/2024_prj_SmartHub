@@ -12,47 +12,40 @@ struct RoomTileView: View {
     
     var body: some View {
         HStack( spacing: 8) {
-            Text(room.name)
-                .font(.headline)
-                .foregroundColor(.primary)
-               
-            Spacer()
-            
             VStack(alignment: .leading){
                 ForEach(room.devices) { device in
-                    
                     HStack{
                         switch device.type {
                         case .lightBulb : 
                             Image(systemName: "lightbulb")
                                 .foregroundColor(.gray)
+                                .frame(width: 25)
                         case .smartPlug :
                             Image(systemName: "powerplug")
                                 .foregroundColor(.gray)
+                                .frame(width: 25)
                         case .unknown:
                             Image(systemName: "exclamationmark.circle.fill")
                                 .foregroundColor(.gray)
+                                .frame(width: 25)
                         }
-                        
-                        
-//                        Image(systemName: device.type == .lightBulb ? "lightbulb" : "powerplug")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 20, height: 20)
-//                            .foregroundColor(.blue)
-                        
                         Text(device.name)
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
                 }
-                
             }
+            Spacer()
+            
+            Text(room.name)
+                .font(.headline)
+                .foregroundColor(.primary)
+               
+            
         }
         .padding()
         .background(Color.secondary.opacity(0.1))
         .cornerRadius(10)
-        
     }
 }
 

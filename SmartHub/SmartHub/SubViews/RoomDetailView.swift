@@ -4,7 +4,7 @@
 //
 //  Created by Valentin Iliev on 18.02.24.
 //
-
+import Foundation
 import SwiftUI
 import CodeScanner
 
@@ -14,35 +14,69 @@ struct RoomDetailView: View {
     
     @State private var isShowingScanner = false
     @State private var isShowingManualInputAllert = false
-    @State var newDeviceUUID = ""
-    @State var newDeviceName = ""
-    @State var newDeviceType: DeviceType = .unknown
+    @State private var isShowingConfirmationForDelete = false
+    @State private var isShowingConfirmationForDeletingDevice = false
+    @State private var isShowCancelButtonForRemovingDevices = false
+    @State private var newDeviceUUID = ""
+    @State private var newDeviceName = ""
+    @State private var newDeviceType: DeviceType = .unknown
+    @State private var deviceToBeDeleted: Device? = nil
+    @State private var devicesDeleteButtonShow = false
+    
+    let screenWidth = UIScreen.main.bounds.width
     
     var room: Room
-    let columns = [
-        GridItem(.flexible())
-      
-    ]
+    
+    let columns = [GridItem(.flexible())]
     
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
                 ForEach(room.devices) { device in
-                    DeviceDetailView(device: device)
-                        .onTapGesture {
-                            // Make sure 'device' is mutable by declaring it as a 'var'
-                            var mutableDevice = device
-                            mutableDevice.isOn.toggle()
-                            // Now you can use 'mutableDevice' to toggle 'isOn' property
-                            // Update the 'rooms' array with the updated 'device'
-                            homeScreenViewModel.updateDeviceInRoom(room: room, updatedDevice: mutableDevice)
+                    ZStack{
+                        if devicesDeleteButtonShow {
+                            Button {
+                                print (device)
+                                isShowingConfirmationForDeletingDevice.toggle()
+                                isShowCancelButtonForRemovingDevices.toggle()
+                                deviceToBeDeleted = device
+                                withAnimation {
+                                    devicesDeleteButtonShow.toggle()
+                                }
+                            } label:{
+                                Image(systemName: "minus.circle.fill")
+                            }
+                            .font(.title2)
+                            .foregroundColor(Color(.systemRed))
+                            .offset(x: -(screenWidth/2) + 15, y: -40)
                         }
+                        
+                        HStack{
+                            DeviceDetailView(device: device)
+                                .onTapGesture {
+                                    var mutableDevice = device
+                                    mutableDevice.isOn.toggle()
+                                    homeScreenViewModel.updateDeviceInRoom(room: room, updatedDevice: mutableDevice)
+                                }
+                            Spacer()
+                        }
+                        
+                    }
                 }
             }
             .padding()
         }
         .navigationBarTitle(room.name, displayMode: .inline)
         .toolbar {
+            if isShowCancelButtonForRemovingDevices{
+                Button{
+                    devicesDeleteButtonShow.toggle()
+                    isShowCancelButtonForRemovingDevices.toggle()
+                } label:{
+                    Text("Cancel")
+                }
+            }
+            
             Menu {
                 Section(room.name){
                     Button {
@@ -56,6 +90,22 @@ struct RoomDetailView: View {
                     } label: {
                         Label("Add Device Manual", systemImage:"square.and.pencil")
                     }
+                    
+                    Divider()
+                    
+                    Button (role: .destructive){
+                        // devicesWiggle.toggle()
+                        devicesDeleteButtonShow.toggle()
+                        isShowCancelButtonForRemovingDevices.toggle()
+                    }label: {
+                        Label("Remove devices", systemImage:"minus")
+                    }
+                    
+                    Button (role: .destructive){
+                        isShowingConfirmationForDelete = true
+                    } label: {
+                        Label("Delete room", systemImage:"minus.circle")
+                    }
                 }
             } label: {
                 Label("more", systemImage: "ellipsis.circle")
@@ -65,40 +115,80 @@ struct RoomDetailView: View {
             CodeScannerView(codeTypes: [.qr], completion: handleScan)
         }
         .sheet(isPresented: $isShowingManualInputAllert) {
-
-            Spacer()
-            VStack{
-                Text("Add device parameters manualy")
-                    .font(.title2)
-                TextField("Enter device UUID", text: $newDeviceUUID)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                TextField("Enter device name", text: $newDeviceName)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                Picker("Device Type", selection: $newDeviceType) {
-                    ForEach(DeviceType.allCases) { type in
-                        Text(type.rawValue)
-                        
-                    }
-                }.pickerStyle(.segmented)
+            HStack(alignment:.center){
                 
+                Image(systemName: "square.and.pencil")
+                    .font(.title)
+                Text("Add device")
+                    .font(.title)
+                Spacer()
+                Button("Cancel") {
+                    isShowingManualInputAllert = false
+                }
+                .padding()
+                .cornerRadius(10)
+            }.padding()
+            
+            Spacer()
+            
+            VStack(alignment:.leading){
+                Section(header: Text("Add device parameters manualy")) {
+                    TextField("Enter device UUID", text: $newDeviceUUID)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
+                    TextField("Enter device name", text: $newDeviceName)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
+                    Picker("Device Type", selection: $newDeviceType) {
+                        ForEach(DeviceType.allCases) { type in
+                            Text(type.rawValue)
+                        }
+                    }
+                    .pickerStyle(.wheel)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
+                }
             }
             .padding()
+            
             Spacer()
-            Button("Submit", action: submitNewDevice)
+            
+            Button("Submit new device", action: submitNewDevice)
                 .padding()
                 .background(Color(.systemGray6))
                 .cornerRadius(10)
+                .disabled(!isValidDevice())
         }
+        .confirmationDialog( "Are you sure you want to delete " + room.name + " ?", isPresented: $isShowingConfirmationForDelete, titleVisibility: .visible) {
+            Button (role: .destructive) {
+                homeScreenViewModel.deleteRoom(room: self.room, userID: viewModel.currentUser!.uid)
+            } label: {
+                Text ("Delete")
+            }
+        }
+        .confirmationDialog( "Are you sure you want to delete this device", isPresented: $isShowingConfirmationForDeletingDevice, titleVisibility: .visible) {
+            Button (role: .destructive) {
+                homeScreenViewModel.deleteDevice(room: self.room, device: deviceToBeDeleted!, userID: viewModel.currentUser!.uid)
+                deviceToBeDeleted = nil
+            } label: {
+                Text ("Delete")
+            }
+        }
+    }
+    
+
+    private func isValidDevice() -> Bool {
+        return !newDeviceUUID.isEmpty && !newDeviceName.isEmpty
     }
     
     func submitNewDevice(){
         let newDevice = Device(id: newDeviceUUID, name: newDeviceName, type: newDeviceType, isOn: false)
-     
+        
         homeScreenViewModel.addDeviceToRoom(room: room.self, device: newDevice, userID: viewModel.currentUser!.uid)
+        
+        isShowingManualInputAllert = false
     }
     
     func handleScan (result: Result<ScanResult, ScanError>) {
@@ -107,12 +197,21 @@ struct RoomDetailView: View {
         switch result {
         case .success(let result):
             let details = result.string
-            print(details)
+            let jsonString = details
             
-            //let device = Device(name: details)
-            //homeScreenViewModel.addDeviceToRoom(room: Room.allRooms.first!, device: device)
-            //continue implementation next time
-            //we can crete codes with the data separated by symbol
+            if let jsonData = jsonString.data(using: .utf8) {
+                do {
+                    let decoder = JSONDecoder()
+                    let deviceData = try decoder.decode(Device.self, from: jsonData)
+                    
+                    homeScreenViewModel.addDeviceToRoom(room: room.self, device: deviceData, userID: viewModel.currentUser!.uid)
+                } catch {
+                    print("Error decoding JSON: \(error)")
+                }
+            } else {
+                print("Failed to convert JSON string to data")
+            }
+            
         case .failure(_):
             print("Scanning faild")
         }
@@ -121,6 +220,6 @@ struct RoomDetailView: View {
 
 #Preview {
     NavigationView{
-        RoomDetailView(room: Room.allRooms.first!)
+        RoomDetailView(room: Room.allRooms[1])
     }
 }

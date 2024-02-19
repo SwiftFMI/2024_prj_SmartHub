@@ -10,14 +10,14 @@ import Firebase
 import FirebaseFirestore
 import SwiftUI
 
-enum DeviceType: String, CaseIterable, Identifiable {
+enum DeviceType: String, CaseIterable, Identifiable, Codable {
     case unknown = "Default"
     case lightBulb = "Light Bulb"
     case smartPlug = "Smart Plug"
     var id: Self { self }
 }
 
-struct Device: Identifiable {
+struct Device: Identifiable, Codable {
     let id: String
     var name: String
     var type: DeviceType = DeviceType.unknown
@@ -162,7 +162,7 @@ class HomeScreenViewModel: ObservableObject{
         rooms[index] = updatedRoom
     }
     
-    
+    //updates all states in firebase when person is trying to logout
     func finalUpdate(){
         
         for room in rooms {
@@ -182,11 +182,61 @@ class HomeScreenViewModel: ObservableObject{
                 }
             }
         }
-        
-        
     }
     
-    func removeRoom(indexSet: IndexSet) {
-        self.rooms.remove(atOffsets: indexSet)
+    func deleteRoom(room: Room, userID: String) {
+        // Remove room from local array
+        rooms.removeAll(where: { $0.id == room.id })
+
+        // Remove room from Firebase
+        let userDocRef = db.collection("homes").document(userID)
+        let roomDocRef = userDocRef.collection("rooms").document(room.id)
+
+        roomDocRef.delete { error in
+            if let error = error {
+                print("Error deleting room from Firestore: \(error.localizedDescription)")
+            } else {
+                print("Room deleted from Firestore successfully")
+            }
+        }
     }
+    
+    func deleteDevice(room: Room, device: Device, userID: String) {
+        //remove device localy
+        guard let index = rooms.firstIndex(where: { $0.id == room.id }) else {
+            return
+        }
+        var updatedRoom = room
+        updatedRoom.devices.removeAll(where: { $0.id == device.id })
+        rooms[index] = updatedRoom
+        
+        //
+        
+        let userDocRef = db.collection("homes").document(userID)
+        let roomDocRef = userDocRef.collection("rooms").document(room.id)
+
+        let updatedDevices = room.devices.filter { $0.id != device.id }
+        let updatedDeviceData = updatedDevices.map { ["id": $0.id, "name": $0.name, "type": $0.type.rawValue, "isOn": $0.isOn] }
+
+        roomDocRef.updateData(["devices": updatedDeviceData]) { error in
+            if let error = error {
+                print("Error updating devices in Firestore: \(error.localizedDescription)")
+            } else {
+                print("Device deleted from Firestore successfully")
+            }
+        }
+    
+    }
+    
+    //load mock rooms for preview test
+    func loadAllRoomsForPreview() {
+         if hasBeenInitialized {
+             return
+         }
+
+         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: { [weak self] in
+             self?.rooms.append(contentsOf: Room.allRooms)
+             self?.hasBeenInitialized = true
+         })
+     }
 }

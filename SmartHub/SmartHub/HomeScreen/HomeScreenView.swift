@@ -68,8 +68,8 @@ struct HomeScreenView: View {
                 }
             }
             .onAppear{
-                //homeScreenViewModel.loadAllRooms()
-                //homeScreenViewModel.loadRoomsForCurrentUser(userID: viewModel.currentUser!.uid)
+                //for preview testing
+                //homeScreenViewModel.loadAllRoomsForPreview()
             }
         }
     }
@@ -85,11 +85,8 @@ struct HomeScreenView: View {
         let newRoom = Room(id:UUID().uuidString, name: newRoomName, devices: [])
         homeScreenViewModel.addRoom(room: newRoom)
         
-        // Add the new room to Firestore
         homeScreenViewModel.addRoomToFirestore(room: newRoom, userID: viewModel.currentUser!.uid)
     }
-    
-    
     
     private func logout() {
         do {
