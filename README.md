@@ -28,7 +28,5 @@ fi/bluetooth
 * Потребителя да може да вижда графики, които отразяват потреблението на устройствата
 
 ## Презентация и демо видео
-* Да се запише кратко видео, което да се добави към описанието на проекта, след като е финализиран.
 
-
-[Видео](https://youtu.be/5adoD5Kugbc "Google's Homepage")
+[Видео - Smart Hub - App Tutorial](https://youtu.be/5adoD5Kugbc "Smart Hub - App Tutorial")
