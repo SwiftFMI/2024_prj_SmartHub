@@ -37,15 +37,21 @@
 
 6. Потребителски интерфейс
    
-   ![Sigh up menu](http://url/to/img.png)
+   ![Sigh up menu](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/signUp.png)
    
-   ![Log in menu](http://url/to/img.png)
+   ![Log in menu](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/logIn.png)
    
-   ![alt text](http://url/to/img.png)
+   ![Main menu](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/homeScreen.png)
 
-   ![alt text](http://url/to/img.png)
+   ![create room](http://url/to/img.png)
 
-   ![alt text](http://url/to/img.png)
+   ![Room from insite](http://url/to/img.png)
+
+   ![add device](http://url/to/img.png)
+
+   ![delete device](http://url/to/img.png)
+
+   
 
    ![alt text](http://url/to/img.png)
 
