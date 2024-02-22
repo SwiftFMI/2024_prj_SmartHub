@@ -39,21 +39,19 @@
    
    ![Sigh up menu](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/signUp.png)    ![Log in menu](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/logIn.png)
    
-   ![Main menu](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/homeScreen.png)
+   ![Main menu](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/homeScreen.png)   ![create room](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/createRoom.png)
 
-   ![create room](http://url/to/img.png)
+   ![Room from insite](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/roomInside.png)
 
-   ![Room from insite](http://url/to/img.png)
-
-   ![add device](http://url/to/img.png)
-
-   ![delete device](http://url/to/img.png)
-
+   ![add device](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/addDeviceManual.png)
    
+    ![alt text](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/devicesList.png)
 
-   ![alt text](http://url/to/img.png)
+   ![delete device](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/deleteMenu.png)
 
-   ![alt text](http://url/to/img.png)
+   ![alt text](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/addDevice.png)
+
+   ![alt text](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/Functionalities.png)  
    
 
 
@@ -62,17 +60,12 @@
         Ключови класове и модули
         Важни функции
 
- 9. Тестване
-        Методи за тестване
-        Тестови случаи и резултати
-
 10. Проблеми и Решения
         Често срещани проблеми
         Съобщения за грешка и техните решения
 
 11. Бъдещи Разширения
-        Планирани функции
-        Пътна карта за развитие
+       Bluetooth and Wifi, както и поддръжка на повече устройства, както и функционалностите им. 
 
 
 Изготвено от: Валентин, Илиян и Галя
