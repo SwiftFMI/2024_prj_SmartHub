@@ -30,4 +30,5 @@ fi/bluetooth
 ## Презентация и демо видео
 * Да се запише кратко видео, което да се добави към описанието на проекта, след като е финализиран.
 
-![app design](./assets/Smart_Hub_Video_Tutorial.mov)
+
+[Видео](https://youtu.be/5adoD5Kugbc "Google's Homepage")
