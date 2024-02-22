@@ -2,7 +2,7 @@
 //  Wiggle.swift
 //  SmartHub
 //
-//  Created by Valentin Iliev on 20.02.24.
+//  Copied by Valentin Iliev from https://gist.github.com/markmals/075273b58a94db20917235fdd5cda3cc on 20.02.24.
 //
 import SwiftUI
 

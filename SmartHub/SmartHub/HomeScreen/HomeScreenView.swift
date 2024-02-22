@@ -99,8 +99,6 @@ struct HomeScreenView: View {
     }
 }
 
-
-
 #Preview {
     HomeScreenView()
 }

@@ -4,6 +4,7 @@
 //
 //  Created by Valentin Iliev on 18.02.24.
 //
+
 import Foundation
 import SwiftUI
 import CodeScanner

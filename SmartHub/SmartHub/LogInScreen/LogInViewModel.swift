@@ -7,8 +7,6 @@
 
 import Foundation
 
-
+// not used, maybe will be updated
 class LogInViewModel: ObservableObject {
-   
-    
 }

@@ -18,6 +18,7 @@ struct MainView: View {
             LogInView()
                 .environmentObject(mainViewModel)
         }
+        //catostrophick fail
         //TestBluetooth()
     }
 }

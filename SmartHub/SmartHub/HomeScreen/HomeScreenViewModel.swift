@@ -62,7 +62,6 @@ class HomeScreenViewModel: ObservableObject{
             // Handle the case where the current user is not available
             print("No current user")
         }
-        
     }
     
     func loadRoomsForCurrentUser(userID: String) {
@@ -121,7 +120,6 @@ class HomeScreenViewModel: ObservableObject{
         }
     }
     
-    //test function
     func addDeviceToRoom(room: Room, device: Device, userID: String) {
         guard let index = rooms.firstIndex(where: { $0.id == room.id }) else {
             return
