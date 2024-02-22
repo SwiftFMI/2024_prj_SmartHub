@@ -30,5 +30,5 @@ fi/bluetooth
 ## Презентация и демо видео
 * Да се запише кратко видео, което да се добави към описанието на проекта, след като е финализиран.
 
-![app design](./assets/Smart Hub - Video Tutorial)
+![app design](./assets/Smart_Hub_-_Video_Tutorial.mov)
 ![app design](./assets/demo.png)
