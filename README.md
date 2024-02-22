@@ -31,4 +31,3 @@ fi/bluetooth
 * Да се запише кратко видео, което да се добави към описанието на проекта, след като е финализиран.
 
 ![app design](./assets/Smart_Hub_Video_Tutorial.mov)
-![app design](./assets/demo.png)
