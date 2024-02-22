@@ -155,31 +155,6 @@ struct LogInView: View {
             }
         }
     }
-
-    // Function to create a new subcollection called "rooms" for the user
-//    func addRoomsSubcollectionForUser(userID: String) {
-//        let db = Firestore.firestore()
-//        let homesCollection = db.collection("homes")
-//        
-//        // Reference to the user's document in the "homes" collection
-//        let userDocRef = homesCollection.document(userID)
-//        
-//        // Reference to the "rooms" subcollection for the user's document
-//        let roomsCollection = userDocRef.collection("rooms")
-//        
-//        // Add a placeholder document to the "rooms" subcollection
-////        roomsCollection.addDocument(data: [
-////            "name": "blank"
-////        ]) { error in
-////            if let error = error {
-////                print("Error adding document to rooms subcollection: \(error.localizedDescription)")
-////            } else {
-////                print("Subcollection 'rooms' created for user with ID: \(userID)")
-////            }
-////        }
-//    }
-
-    
 }
 
 #Preview {

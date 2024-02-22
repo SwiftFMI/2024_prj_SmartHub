@@ -12,11 +12,28 @@ struct DeviceDetailView: View {
     
     var body: some View {
         HStack {
-            Image(systemName: device.type == .lightBulb ? "lightbulb" : "powerplug")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 50, height: 50)
-                .foregroundColor(device.isOn ? .yellow : .gray)
+            HStack{
+                switch device.type {
+                case .lightBulb :
+                    Image(systemName: "lightbulb")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(device.isOn ? .yellow : .gray)
+                case .smartPlug :
+                    Image(systemName: "powerplug")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(device.isOn ? .yellow : .gray)
+                case .unknown:
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(device.isOn ? .yellow : .gray)
+                }
+            }
             
             Text(device.name)
                 .font(.headline)

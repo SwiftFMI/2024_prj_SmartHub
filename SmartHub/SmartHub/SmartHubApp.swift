@@ -26,13 +26,9 @@ struct SmartHubApp: App {
         FirebaseApp.configure()
     }
     
-   // var mainViewModel = MainViewModel()
-    
     var body: some Scene {
         WindowGroup {
             MainView()
-            //            ContentView()
-            //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

@@ -10,6 +10,14 @@ import Firebase
 import FirebaseFirestore
 import SwiftUI
 
+//QR-code test
+//{
+//    "id": "12345",
+//    "name": "Smart Bulb",
+//    "type": "Light Bulb",
+//    "isOn": true
+//}
+
 enum DeviceType: String, CaseIterable, Identifiable, Codable {
     case unknown = "Default"
     case lightBulb = "Light Bulb"
@@ -32,8 +40,8 @@ struct Room: Identifiable {
     static var allRooms: [Room] {
         [
             Room(id:"01", name: "Living Room", devices: [Device(id: UUID().uuidString, name: "Smart Bulb", type: .lightBulb, isOn: true), Device(id: UUID().uuidString,name: "Smart Thermostat", type: .smartPlug)]),
-            Room(id:"02",name: "Bedroom", devices: [Device(id: UUID().uuidString,name: "Smart Lamp"), Device(id: UUID().uuidString,name: "Smart Speaker")]),
-            Room(id:"03",name: "Kitchen", devices: [Device(id: UUID().uuidString,name: "Smart Lamp"), Device(id: UUID().uuidString,name: "Smart Lapm")])
+            Room(id:"02",name: "Bedroom", devices: [Device(id: UUID().uuidString,name: "Smart Lamp", type: .smartPlug, isOn: true), Device(id: UUID().uuidString,name: "Smart Speaker", type: .lightBulb, isOn: true)]),
+            Room(id:"03",name: "Kitchen", devices: [Device(id: UUID().uuidString,name: "Smart Lamp", type: .lightBulb, isOn: true), Device(id: UUID().uuidString,name: "Smart Lapm", type: .smartPlug, isOn: true)])
         ]
     }
 }
@@ -54,7 +62,6 @@ class HomeScreenViewModel: ObservableObject{
             // Handle the case where the current user is not available
             print("No current user")
         }
-        
     }
     
     func loadRoomsForCurrentUser(userID: String) {
@@ -113,7 +120,6 @@ class HomeScreenViewModel: ObservableObject{
         }
     }
     
-    //test function
     func addDeviceToRoom(room: Room, device: Device, userID: String) {
         guard let index = rooms.firstIndex(where: { $0.id == room.id }) else {
             return

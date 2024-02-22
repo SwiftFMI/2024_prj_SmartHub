@@ -21,6 +21,8 @@
 		BD34F2592B82192B005D0C58 /* RoomTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD34F2582B82192B005D0C58 /* RoomTileView.swift */; };
 		BD5B34002B73B717003147B4 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = BD5B33FF2B73B717003147B4 /* CodeScanner */; };
 		BD5B34022B78DC01003147B4 /* TestBluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5B34012B78DC01003147B4 /* TestBluetooth.swift */; };
+		BD5C6C512B84D95B00129A87 /* Wiggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5C6C502B84D95B00129A87 /* Wiggle.swift */; };
+		BD5C6C562B851F9100129A87 /* ConsumtionChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5C6C552B851F9100129A87 /* ConsumtionChartView.swift */; };
 		BDB5D8622B66B02E00C03477 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB5D8612B66B02E00C03477 /* MainView.swift */; };
 		BDB5D8642B66B05000C03477 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB5D8632B66B05000C03477 /* MainViewModel.swift */; };
 		BDB5D8682B66B18100C03477 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB5D8672B66B18100C03477 /* LogInView.swift */; };
@@ -66,6 +68,8 @@
 		BD34F2562B8212A1005D0C58 /* DeviceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetailView.swift; sourceTree = "<group>"; };
 		BD34F2582B82192B005D0C58 /* RoomTileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomTileView.swift; sourceTree = "<group>"; };
 		BD5B34012B78DC01003147B4 /* TestBluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBluetooth.swift; sourceTree = "<group>"; };
+		BD5C6C502B84D95B00129A87 /* Wiggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wiggle.swift; sourceTree = "<group>"; };
+		BD5C6C552B851F9100129A87 /* ConsumtionChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumtionChartView.swift; sourceTree = "<group>"; };
 		BDB5D8612B66B02E00C03477 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		BDB5D8632B66B05000C03477 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		BDB5D8672B66B18100C03477 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 		2A4AEDC92B59913D00148B47 /* SmartHub */ = {
 			isa = PBXGroup;
 			children = (
+				BD5C6C4F2B84D94200129A87 /* Animations */,
 				BD34F2512B8210B7005D0C58 /* SubViews */,
 				BDCD068F2B6B912D000E7090 /* HomeScreen */,
 				BDB5D8692B66BD9F00C03477 /* GoogleService-Info.plist */,
@@ -174,8 +179,17 @@
 				BD34F2542B82112C005D0C58 /* RoomDetailView.swift */,
 				BD34F2562B8212A1005D0C58 /* DeviceDetailView.swift */,
 				BD34F2582B82192B005D0C58 /* RoomTileView.swift */,
+				BD5C6C552B851F9100129A87 /* ConsumtionChartView.swift */,
 			);
 			path = SubViews;
+			sourceTree = "<group>";
+		};
+		BD5C6C4F2B84D94200129A87 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				BD5C6C502B84D95B00129A87 /* Wiggle.swift */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 		BDB5D8652B66B11900C03477 /* MainViewScreen */ = {
@@ -352,6 +366,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD5C6C562B851F9100129A87 /* ConsumtionChartView.swift in Sources */,
+				BD5C6C512B84D95B00129A87 /* Wiggle.swift in Sources */,
 				2A4AEDD42B59913E00148B47 /* Persistence.swift in Sources */,
 				BDB5D8682B66B18100C03477 /* LogInView.swift in Sources */,
 				BD34F2572B8212A1005D0C58 /* DeviceDetailView.swift in Sources */,

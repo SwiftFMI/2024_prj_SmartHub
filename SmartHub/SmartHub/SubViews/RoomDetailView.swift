@@ -4,6 +4,7 @@
 //
 //  Created by Valentin Iliev on 18.02.24.
 //
+
 import Foundation
 import SwiftUI
 import CodeScanner
@@ -17,11 +18,12 @@ struct RoomDetailView: View {
     @State private var isShowingConfirmationForDelete = false
     @State private var isShowingConfirmationForDeletingDevice = false
     @State private var isShowCancelButtonForRemovingDevices = false
+    @State private var isShowingChartSheet = false
+    @State private var isWiggliing = false
     @State private var newDeviceUUID = ""
     @State private var newDeviceName = ""
     @State private var newDeviceType: DeviceType = .unknown
     @State private var deviceToBeDeleted: Device? = nil
-    @State private var devicesDeleteButtonShow = false
     
     let screenWidth = UIScreen.main.bounds.width
     
@@ -31,36 +33,47 @@ struct RoomDetailView: View {
     
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
+            VStack{
                 ForEach(room.devices) { device in
-                    ZStack{
-                        if devicesDeleteButtonShow {
+                    if isWiggliing {
+                        ZStack{
                             Button {
-                                print (device)
+                                isWiggliing = false
                                 isShowingConfirmationForDeletingDevice.toggle()
                                 isShowCancelButtonForRemovingDevices.toggle()
                                 deviceToBeDeleted = device
-                                withAnimation {
-                                    devicesDeleteButtonShow.toggle()
-                                }
                             } label:{
                                 Image(systemName: "minus.circle.fill")
                             }
-                            .font(.title2)
+                            .font(.title)
                             .foregroundColor(Color(.systemRed))
                             .offset(x: -(screenWidth/2) + 15, y: -40)
+
+                            HStack{
+                                DeviceDetailView(device: device)
+                                    .onTapGesture {
+                                        var mutableDevice = device
+                                        mutableDevice.isOn.toggle()
+                                        homeScreenViewModel.updateDeviceInRoom(room: room, updatedDevice: mutableDevice)
+                                    }
+                                Spacer()
+                            }
+                        }.wiggling()
+                    } else {
+                        ZStack{
+                            HStack{
+                                DeviceDetailView(device: device)
+                                    .onTapGesture {
+                                        var mutableDevice = device
+                                        mutableDevice.isOn.toggle()
+                                        homeScreenViewModel.updateDeviceInRoom(room: room, updatedDevice: mutableDevice)
+                                    }
+                                    .onLongPressGesture{
+                                        isShowingChartSheet.toggle()
+                                    }
+                                Spacer()
+                            }
                         }
-                        
-                        HStack{
-                            DeviceDetailView(device: device)
-                                .onTapGesture {
-                                    var mutableDevice = device
-                                    mutableDevice.isOn.toggle()
-                                    homeScreenViewModel.updateDeviceInRoom(room: room, updatedDevice: mutableDevice)
-                                }
-                            Spacer()
-                        }
-                        
                     }
                 }
             }
@@ -70,7 +83,7 @@ struct RoomDetailView: View {
         .toolbar {
             if isShowCancelButtonForRemovingDevices{
                 Button{
-                    devicesDeleteButtonShow.toggle()
+                    isWiggliing.toggle()
                     isShowCancelButtonForRemovingDevices.toggle()
                 } label:{
                     Text("Cancel")
@@ -82,7 +95,7 @@ struct RoomDetailView: View {
                     Button {
                         isShowingScanner = true
                     } label: {
-                        Label("Add Device QR", systemImage:"qrcode.viewfinder")
+                        Label("Add Device with QR", systemImage:"qrcode.viewfinder")
                     }
                     
                     Button {
@@ -94,17 +107,16 @@ struct RoomDetailView: View {
                     Divider()
                     
                     Button (role: .destructive){
-                        // devicesWiggle.toggle()
-                        devicesDeleteButtonShow.toggle()
+                        isWiggliing.toggle()
                         isShowCancelButtonForRemovingDevices.toggle()
                     }label: {
-                        Label("Remove devices", systemImage:"minus")
+                        Label("Remove devices", systemImage:"minus.circle")
                     }
                     
                     Button (role: .destructive){
                         isShowingConfirmationForDelete = true
                     } label: {
-                        Label("Delete room", systemImage:"minus.circle")
+                        Label("Delete room", systemImage:"trash.slash")
                     }
                 }
             } label: {
@@ -160,6 +172,9 @@ struct RoomDetailView: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(10)
                 .disabled(!isValidDevice())
+        }
+        .sheet(isPresented: $isShowingChartSheet) {
+            ConsumtionChartView(isPresented: $isShowingChartSheet)
         }
         .confirmationDialog( "Are you sure you want to delete " + room.name + " ?", isPresented: $isShowingConfirmationForDelete, titleVisibility: .visible) {
             Button (role: .destructive) {
