@@ -56,13 +56,20 @@
 
 
 8. Структура на Кода
-        Обзор на структурата на проекта
-        Ключови класове и модули
-        Важни функции
 
-10. Проблеми и Решения
-        Често срещани проблеми
-        Съобщения за грешка и техните решения
+   ![Room from insite](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/UmlDiagrams/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%B5%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BD%D0%B0%202024-02-23%2001-50-55.png)
+
+   ![add device](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/UmlDiagrams/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%B5%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BD%D0%B0%202024-02-23%2001-52-37.png)
+   
+    ![alt text](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/UmlDiagrams/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%B5%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BD%D0%B0%202024-02-23%2001-53-34.png)
+
+   ![delete device](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/UmlDiagrams/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%B5%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BD%D0%B0%202024-02-23%2001-53-57.png)
+
+   ![alt text](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/UmlDiagrams/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%B5%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BD%D0%B0%202024-02-23%2001-55-11.png)
+
+   ![alt text](https://github.com/SwiftFMI/2024_prj_SmartHub/blob/main/UmlDiagrams/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%B5%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BD%D0%B0%202024-02-23%2001-57-54.png)  
+
+
 
 11. Бъдещи Разширения
     
